@@ -1,17 +1,33 @@
-"""Charm the Commuter: a forecast for Brindlewick, a city that isn't.
+"""Prakiraan cuaca komuter untuk kota fiktif Quizzle.
 
-Writes one line — 111 characters, no trailing newline — to /output/entry.txt:
-drizzle until 9 AM, then sunshine, and a bus that is on time for once.
+Kalimat dirakit dari fragmen-fragmen pendek; tiap fragmen membawa
+satu suasana: kabut pagi, siang cerah, lalu kereta yang minta maaf.
 """
 
 import os
 
-FORECAST = "In Brindlewick, drizzle until 9 AM, then sunshine. The 8:15 bus is on time for once — check if you're dreaming."
+
+def susun_kalimat():
+    potongan = (
+        "In Quizzle, fog until noon, ",
+        "then 22\u00b0 and clear. ",
+        "The train you missed is the one that was early ",
+        "\u2014 today, the timetable apologised.",
+    )
+    return "".join(potongan)
+
+
+def simpan(teks, tujuan="/output/entry.txt"):
+    os.makedirs(os.path.dirname(tujuan), exist_ok=True)
+    with open(tujuan, "w", encoding="utf-8", newline="") as berkas:
+        berkas.write(teks)
+
 
 def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8", newline="") as f:
-        f.write(FORECAST)
+    kalimat = susun_kalimat()
+    simpan(kalimat)
+    print(kalimat)
+
 
 if __name__ == "__main__":
     main()
