@@ -1,32 +1,37 @@
-"""Prakiraan cuaca komuter untuk kota fiktif Quizzle.
+# Varnmouth morning forecast — assembled from small phrase chunks
+# so the line can be tweaked piece by piece later.
 
-Kalimat dirakit dari fragmen-fragmen pendek; tiap fragmen membawa
-satu suasana: kabut pagi, siang cerah, lalu kereta yang minta maaf.
-"""
+CITY = "Varnmouth"
 
-import os
+# weather in two acts: first the flakes, then the clear sky
+_WEATHER_BITS = (
+    "snow flurries",
+    ", then blue sky",
+)
 
-
-def susun_kalimat():
-    potongan = (
-        "In Quizzle, fog until noon, ",
-        "then 22\u00b0 and clear. ",
-        "The train you missed is the one that was early ",
-        "\u2014 today, the timetable apologised.",
-    )
-    return "".join(potongan)
+# the commuter's small miracle at the stop
+_STOP_BITS = (
+    "The bus stop heater works today",
+    " \u2014 miracles do happen before 9 AM",
+)
 
 
-def simpan(teks, tujuan="/output/entry.txt"):
-    os.makedirs(os.path.dirname(tujuan), exist_ok=True)
-    with open(tujuan, "w", encoding="utf-8", newline="") as berkas:
-        berkas.write(teks)
+def _join(parts):
+    return "".join(parts)
+
+
+def build_forecast():
+    opening = "In " + CITY + ", "
+    weather = _join(_WEATHER_BITS)
+    stop = _join(_STOP_BITS)
+    sentence = opening + weather + "." + " " + stop + "."
+    return sentence
 
 
 def main():
-    kalimat = susun_kalimat()
-    simpan(kalimat)
-    print(kalimat)
+    line = build_forecast()
+    with open("/output/entry.txt", "w", encoding="utf-8") as handle:
+        handle.write(line)
 
 
 if __name__ == "__main__":
